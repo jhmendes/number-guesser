@@ -20,8 +20,10 @@ bueller.style.display = 'none';
 
  let min = 1,
      max = 10, 
-     winningNum = 2, 
+     winningNum = getRandomNumber(min, max), 
      guessesLeft = 3;
+
+// console.log(winningNum);
 
 
 //UI Elements
@@ -39,6 +41,15 @@ const game = document.querySelector('#game'),
 minNum.textContent = min;
 maxNum.textContent = max;
 
+
+//Play again event listener
+
+game.addEventListener('mousedown', function(e) {
+
+  if(e.target.className === 'play-again') {
+    window.location.reload();
+  }
+})
 
 //Listen for guess
 
@@ -104,10 +115,21 @@ function gameOver(won, msg) {
     //Let user know they won
     setMessage(msg, color);
 
+
+    //Play Again?
+
+    guessBtn.value = 'Play Again';
+    guessBtn.className += 'play-again';
+
 }
 
+//Get winning number
+function getRandomNumber(min, max) {
 
-
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max-min)) + min;
+}
 
 
 //Set Message
@@ -116,4 +138,6 @@ function setMessage(msg, color) {
   message.style.color = color;
   message.textContent = msg;
 }
+
+
 
