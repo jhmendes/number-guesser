@@ -8,9 +8,12 @@
  */
 
 
- //Hide Rocky
+ //Hide Rocky and Bueller
 const rockyBalboa = document.querySelector('.rocky');
+const bueller = document.querySelector('.bueller');
 rockyBalboa.style.display = 'none';
+bueller.style.display = 'none';
+
 
  //Game values 
 
@@ -51,17 +54,60 @@ guessBtn.addEventListener('click', function() {
   //Check if winning number
 
   if(guess === winningNum) {
-    //disable input
-    guessInput.disabled = true;
-    //Change color of input border to indicate win
-    guessInput.style.border = '3px solid green';
-    //Let user know they won
+    //GAME IS OVER - WON
+
+   let winmessage = `${winningNum} is correct!  YOU WIN.`;
+    gameOver(true, winmessage);
     rockyBalboa.style.display = 'block';
-    setMessage(`${winningNum} is correct!  YOU WIN.`, 'green');
+
   } else {
+
+
+    //WRONG NUMBER
+    guessesLeft -= 1;
+
+    if(guessesLeft === 0 ) {
+      //GAME OVER - LOST
+
+      let losemessage = `WRONG AGAIN.  You lost!  The correct number was ${winningNum}`;
+      gameOver(false, losemessage);
+      bueller.style.display = 'block';
+
+    } else {
+      //Game Continues - answer is wrong
+
+      //Tell user its the wrong number, inform them the number of guesses left
+      setMessage(`${guessInput.value} is not correct, try again! ${guessesLeft} guesses left.`, 'red');
+      //Clear the input
+      guessInput.value = '';
+    }
 
   }
 });
+
+
+
+
+//Game over 
+
+function gameOver(won, msg) {
+   
+    let color;
+    won === true ? color = 'green' : 'red';
+    
+  
+  //disable input
+    guessInput.disabled = true;
+  //Change color of input border to indicate win
+    guessInput.style.color = color;
+  
+    //Let user know they won
+    setMessage(msg, color);
+
+}
+
+
+
 
 
 //Set Message
@@ -70,3 +116,4 @@ function setMessage(msg, color) {
   message.style.color = color;
   message.textContent = msg;
 }
+
